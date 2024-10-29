@@ -1,45 +1,3 @@
-# Azure_Banking_Data_Exploration
-Data Exploration with Azure SQL Database – Customer, Account, and Loan Feeds
-
-Project Tasks:
-
-1. Setting Up Azure SQL Database
-   - Step 1.1: Create an Azure SQL Database in the Azure portal.
-     -Install Azure Data Studio 
-   - Step 1.2: Name the database `CustomerAccountLoanDB`.
-
-2. Data Organisation
-    - Step 2.1: Create tables for the provided feeds:
-     - Customer Feed:
-     - Account Feed:
-     - Transaction Feed:
-     - Loan Feed: 
-     - Loan Payment Feed:
-
-3. Data Insertion :
-    - Download SQL Server Import - This helps in importing the local file to Azure Data Studio and connecting to the SQL Database.
-    Using Import Wizard step by step process data is imported and primary key is allocated .
-    Run SQL Query to assign Foreign key constraint 
-
-    
---SQL-- 
-
-ALTER TABLE accounts
-ADD CONSTRAINT fk_accounts
-FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
-
-ALTER TABLE loans
-ADD CONSTRAINT fk_loans
-FOREIGN KEY (customer_id) REFERENCES customers(customer_id);
-
-ALTER TABLE loan_payments
-ADD CONSTRAINT fk_loan_payments
-FOREIGN KEY (loan_id) REFERENCES loans(loan_id);
-
-ALTER TABLE transactions
-ADD CONSTRAINT fk_transactions
-FOREIGN KEY (account_id) REFERENCES accounts(account_id);
-
 --4.1--Write query to retrieve all customer information:
 
 SELECT 
@@ -59,9 +17,9 @@ JOIN
     loans l ON c.customer_id = l.customer_id
 JOIN 
     loan_payments lp ON l.loan_id = lp.loan_id;
-    
 
---4.2--
+
+--4.2--Query accounts for a specific customer:
 
 SELECT 
     c.first_name,
@@ -217,9 +175,7 @@ WHERE
     lp.payment_amount > 1000;
 
 
---6.2--
+--6.2--Create an index on `transaction_date` in the `transactions` table for performance optimization:
 
 CREATE INDEX idx_transaction_date
 ON transactions (transaction_date);
-
-
